@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
 
-const Services = () => {
+const Services = ({isDarkMode}) => {
 
     const [services, setServices] = useState([])
 
@@ -12,7 +12,7 @@ const Services = () => {
     }, [])
 
     return (
-        <div>
+        <div className={isDarkMode ? "bg-black text-white" : "bg-white text-black"}>
             <div className="text-center lg:mx-[362px] space-y-5 my-4">
                 <h3 className="text-[#FF3811] text-xl font-bold text-center">Service</h3>
                 <h2 className="text-5xl font-bold">Our Service Area</h2>

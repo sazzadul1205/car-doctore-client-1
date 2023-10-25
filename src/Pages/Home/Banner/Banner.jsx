@@ -7,9 +7,9 @@ import banImg5 from '../../../assets/images/banner/5.jpg'
 import banImg6 from '../../../assets/images/banner/6.jpg'
 
 
-const Banner = () => {
+const Banner = ({ isDarkMode }) => {
     return (
-        <div>
+        <div className={isDarkMode ? "bg-black text-white" : "bg-white text-black"}>
             <div className="carousel w-full h-[600px]">
                 <div id="slide1" className="carousel-item relative w-full">
                     <img src={banImg1} className="w-full rounded-xl" />

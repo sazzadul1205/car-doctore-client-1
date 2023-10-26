@@ -2,14 +2,31 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillBagFill } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import logo from '../../../assets/logo.svg'
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 const Navbar = () => {
+
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error))
+    }
+
     const link = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/about'}>About</NavLink></li>
-        <li><NavLink to={'/services'}>Services</NavLink></li>
+
         <li><NavLink to={'/blog'}>Blog</NavLink></li>
         <li><NavLink to={'/contact'}>Contact</NavLink></li>
+        {user?.email ?
+            <>
+                <li><NavLink to={'/bookings'}>My Bookings</NavLink></li>
+                <li><button onClick={handleLogOut}>Log Out</button></li>
+            </> : <li><Link to={'/login'}>Login</Link></li>
+        }
     </>
     return (
         <div>

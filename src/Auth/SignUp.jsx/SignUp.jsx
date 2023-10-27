@@ -9,6 +9,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 const SignUp = () => {
 
     const {createUser} = useContext(AuthContext);
+    
 
     const handleSignUp = e => {
         e.preventDefault()

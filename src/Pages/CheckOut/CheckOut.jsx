@@ -5,9 +5,9 @@ import { useLoaderData } from "react-router-dom";
 
 const CheckOut = () => {
     const services = useLoaderData()
-    console.log(services);
     const { title, price, _id, img } = services;
     const { user } = useContext(AuthContext);
+
 
     const handleCheckOut = (e) => {
         e.preventDefault();

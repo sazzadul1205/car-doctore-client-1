@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
+import Skeleton from "react-loading-skeleton";
 
-const Services = ({isDarkMode}) => {
-
-    const [services, setServices] = useState([])
+const Services = ({ isDarkMode }) => {
+    const [services, setServices] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetch('http://localhost:5000/services')
             .then(res => res.json())
-            .then(data => setServices(data))
-    }, [])
+            .then(data => {
+                setServices(data);
+                setIsLoading(false);
+            })
+            .catch(error => console.error("Error fetching services: ", error));
+    }, []);
 
     return (
         <div className={isDarkMode ? "bg-black text-white" : "bg-white text-black"}>
@@ -19,12 +24,17 @@ const Services = ({isDarkMode}) => {
                 <p>the majority have suffered alteration in some form, by injected humour, or randomised words which do not look even slightly believable. </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {
-                    services.map(service => <ServiceCard
-                        key={service._id}
-                        service={service}
-                    ></ServiceCard>)
-                }
+                {isLoading
+                    ? Array.from({ length: 6 }, (_, index) => (
+                        <div key={index} className="w-full">
+                            <Skeleton height={300} />
+                            <Skeleton height={30} style={{ marginTop: 10 }} />
+                            <Skeleton height={20} style={{ marginTop: 5 }} />
+                        </div>
+                    ))
+                    : services.map(service => (
+                        <ServiceCard key={service._id} service={service} />
+                    ))}
             </div>
         </div>
     );

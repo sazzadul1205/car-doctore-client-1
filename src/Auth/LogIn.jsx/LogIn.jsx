@@ -2,15 +2,17 @@ import { BiLogoFacebook } from "react-icons/bi";
 import login from '../../assets/images/login/login.svg'
 import { AiFillLinkedin } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../Providers/AuthProvider";
-import axios from 'axios';
+import { Link, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+// import { useContext } from "react";
+// import { AuthContext } from "../../Providers/AuthProvider";
 
 const LogIn = () => {
-    const { signIn } = useContext(AuthContext);
+    // const { signIn } = useContext(AuthContext);
+    const {signIn} = useAuth();
+
     const location = useLocation();
-    const navigate = useNavigate();
     console.log(location);
 
     const handleLogin = e => {
@@ -23,18 +25,11 @@ const LogIn = () => {
         signIn(email, password)
             .then(result => {
                 const loggedInUser = result.user;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                });
                 console.log(loggedInUser);
-                const user = { email }
-
-                // get access token
-                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
-                    .then(res => {
-                        console.log(res.data);
-                        if (res.data.success) {
-                            navigate(location?.state ? location?.state : '/')
-                        }
-                    })
-
             })
             .catch(error => console.log(error))
     };

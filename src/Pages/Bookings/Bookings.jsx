@@ -2,22 +2,28 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import BookingRow from "./BookingRow";
 import Swal from "sweetalert2";
-import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+
+// import axios from "axios";
 
 const Bookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
-    const url = `http://localhost:5000/checkout?email=${user?.email}`
+    // const url = `http://localhost:5000/checkout?email=${user?.email}`
+
+    const url = `/checkout?email=${user?.email}`
+
     useEffect(() => {
-        axios.get(url, {withCredentials: true})
-        .then(res => {
-            setBookings(res.data)
-        })
-        // fetch(url)
+        // fetch(url, { credentials: 'include' })
         //     .then(res => res.json())
         //     .then(data => setBookings(data))
-    }, [url])
+
+        axiosSecure.get(url)
+            .then(res => setBookings(res.data))
+            
+    }, [url, axiosSecure])
 
     const handleDelete = id => {
         Swal.fire({
@@ -70,7 +76,7 @@ const Bookings = () => {
                     // Update the state if needed
                     const remaining = bookings.filter(booking => booking._id !== id);
                     const updated = bookings.find(booking => booking._id === id);
-                    updated.status ='confirm'
+                    updated.status = 'confirm'
                     const nerBookings = [updated, ...remaining]
                     setBookings(nerBookings);
                 }

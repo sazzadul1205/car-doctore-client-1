@@ -11,7 +11,7 @@ const Bookings = () => {
     const [bookings, setBookings] = useState([]);
     const axiosSecure = useAxiosSecure();
 
-    // const url = `http://localhost:5000/checkout?email=${user?.email}`
+    // const url = `https://car-doctore-server.vercel.app/checkout?email=${user?.email}`
 
     const url = `/checkout?email=${user?.email}`
 
@@ -36,7 +36,7 @@ const Bookings = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/checkout/${id}`, {
+                fetch(`https://car-doctore-server.vercel.app/checkout/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
@@ -57,7 +57,7 @@ const Bookings = () => {
     }
 
     const handleBookingConfirm = id => {
-        fetch(`http://localhost:5000/checkout/${id}`, {
+        fetch(`https://car-doctore-server.vercel.app/checkout/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
